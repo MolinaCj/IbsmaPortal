@@ -31,10 +31,11 @@ use App\Http\Controllers\InstructorDashboardController;
 
 
 Route::get('/', function () {
-    return view('/student_login/studentLogin');
+    return view('/login_admin/login');
 });
 // instructor_login/instructorLogin
 ///login_admin/login
+// /student_login/studentLogin
 
 
 // admin routes
