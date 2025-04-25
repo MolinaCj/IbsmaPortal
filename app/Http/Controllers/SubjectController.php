@@ -79,8 +79,36 @@ class SubjectController extends Controller
     {
         // Validate the incoming data
         $request->validate([
-            'code' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
+            'code' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) use ($request) {
+                    // Check if a subject with the same code and department_id already exists
+                    $exists = Subject::where('code', $value)
+                        ->where('department_id', $request->department_id)
+                        ->exists();
+                    
+                    if ($exists) {
+                        $fail('This subject code already exists in the selected department.');
+                    }
+                },
+            ],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) use ($request) {
+                    // Check if a subject with the same name and department_id already exists
+                    $exists = Subject::where('name', $value)
+                        ->where('department_id', $request->department_id)
+                        ->exists();
+                    
+                    if ($exists) {
+                        $fail('This subject name already exists in the selected department.');
+                    }
+                },
+            ],
             'description' => 'nullable|string',
             'units' => 'nullable|integer',
             'schedule' => 'nullable|array', // Validate that schedule is an array
@@ -109,22 +137,28 @@ class SubjectController extends Controller
         }
     
         // Save the subject, including the schedule
-        Subject::create([
-            'code' => $request->code,
-            'name' => $request->name,
-            'description' => $request->description,
-            'units' => $request->units,
-            'schedule' => $schedule, // Array that will be automatically cast to JSON
-            'room' => $request->room,
-            'teacher_id' => $request->teacher_id,
-            'department_id' => $request->department_id,
-            'semester' => $request->semester,
-            'year' => $request->year,
-            'major' => $request->major,
-        ]);
+        try {
+            Subject::create([
+                'code' => $request->code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'units' => $request->units,
+                'schedule' => $schedule, // Array that will be automatically cast to JSON
+                'room' => $request->room,
+                'teacher_id' => $request->teacher_id,
+                'department_id' => $request->department_id,
+                'semester' => $request->semester,
+                'year' => $request->year,
+                'major' => $request->major,
+            ]);
     
-        return redirect()->route('subjects.index')->with('success', 'Subject created successfully.');
+            return redirect()->route('subjects.index')->with('success', 'Subject created successfully :).');
+    
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error: Unable to create subject due to duplication or other issues.');
+        }
     }
+    
     
     
     
@@ -150,8 +184,38 @@ public function update(Request $request, Subject $subject)
     
     // Validate the incoming data
     $request->validate([
-        'code' => 'required|string|max:255',
-        'name' => 'required|string|max:255',
+        'code' => [
+            'required',
+            'string',
+            'max:255',
+            function ($attribute, $value, $fail) use ($request, $subject) {
+                // Check if a subject with the same code and department_id already exists, excluding the current subject
+                $exists = Subject::where('code', $value)
+                    ->where('department_id', $request->department_id)
+                    ->where('id', '!=', $subject->id) // Exclude the current subject being updated
+                    ->exists();
+                
+                if ($exists) {
+                    $fail('This subject code already exists in the selected department.');
+                }
+            },
+        ],
+        'name' => [
+            'required',
+            'string',
+            'max:255',
+            function ($attribute, $value, $fail) use ($request, $subject) {
+                // Check if a subject with the same name and department_id already exists, excluding the current subject
+                $exists = Subject::where('name', $value)
+                    ->where('department_id', $request->department_id)
+                    ->where('id', '!=', $subject->id) // Exclude the current subject being updated
+                    ->exists();
+                
+                if ($exists) {
+                    $fail('This subject name already exists in the selected department.');
+                }
+            },
+        ],
         'description' => 'nullable|string',
         'units' => 'nullable|integer',
         'teacher_id' => 'required|exists:teachers,id',
@@ -203,6 +267,7 @@ public function update(Request $request, Subject $subject)
 
     return redirect()->route('subjects.index')->with('success', 'Subject updated successfully.');
 }
+
 
 
 
