@@ -462,6 +462,19 @@ public function store(Request $request)
 
         return redirect()->back()->with('success', 'Grades updated successfully.');
     }
+        public function setNullGradesToNinety()
+    {
+        // Update all grades where grade is null or 0 to 90
+        Grade::where(function ($query) {
+            $query->whereNull('grade')
+                ->orWhere('grade', 0);
+        })->update(['grade' => 90]);
+
+        // Log this action
+        Log::info("Set all null/0 grades to 90 by admin");
+
+        return redirect()->back()->with('success', 'All null/0 grades have been set to 90');
+    }
 
     public function recheckStudentSubjects($studentId)
     {
@@ -478,6 +491,7 @@ public function store(Request $request)
         $eligibleSubjects = Subject::whereIn('prerequisite_id', $passedSubjects)
             ->whereNotIn('id', Grade::where('student_id', $studentId)->pluck('subject_id'))
             ->where('year', '<=', $student->year_level) // Ensure subject year level matches student year level
+            ->where('department_id', $student->department_id) // Ensure subject belongs to the same department
             ->get();
 
         $count = 0;
