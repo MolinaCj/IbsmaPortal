@@ -20,6 +20,18 @@
 
 <style>
     /* Overlay effect (dims the background) */
+   /* Loading Screen Styles */
+   #loading-screen {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+    }
+    
+    /* Overlay effect (dims the background) */
     #loading-screen .overlay {
         position: fixed;
         top: 0;
@@ -29,7 +41,7 @@
         background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
         z-index: 9998; /* Places it behind the loader but above the rest of the content */
     }
-
+    
     /* Loader container (centered image) */
     #loading-screen .loader-container {
         position: fixed;
@@ -39,13 +51,76 @@
         text-align: center;
         z-index: 9999; /* Places it on top of the overlay */
     }
-
+    
     #loading-screen img {
         width: 100px; /* You can adjust the size of your logo */
         height: auto;
+        animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
     }
 </style>
 
+<script>
+    // Loading screen functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide loading screen when page is fully loaded
+        const loadingScreen = document.getElementById('loading-screen');
+        
+        // Set a minimum display time for the loader (at least 800ms)
+        setTimeout(function() {
+            loadingScreen.style.display = 'none';
+        }, 800);
+        
+        // Show loading screen when navigating away
+        document.addEventListener('click', function(e) {
+            // Check if the clicked element is a link or submit button that would navigate away
+            const target = e.target.closest('a, button[type="submit"]');
+            if (target) {
+                // Exclude elements that shouldn't trigger the loader
+                const excludeSelectors = [
+                    '[data-bs-toggle="modal"]',  // Modal toggles
+                    '[data-bs-toggle="collapse"]', // Collapse toggles
+                    '.btn-close',  // Close buttons
+                    '.remove-schedule-btn', // Schedule removal buttons
+                    '.add-schedule-btn', // Schedule add buttons
+                    '.save-btn:not([type="submit"])' // Save buttons that don't submit forms
+                ];
+                
+                const shouldExclude = excludeSelectors.some(selector => 
+                    target.matches(selector)
+                );
+                
+                if (!shouldExclude && !e.ctrlKey && !e.metaKey) {
+                    // If it's a normal navigation (not opening in new tab)
+                    const message = target.closest('form') ? 
+                        'Saving changes...' : 
+                        'Loading...';
+                    
+                    document.getElementById('loading-message').textContent = message;
+                    loadingScreen.style.display = 'block';
+                }
+            }
+        });
+        
+        // Also show loading on form submissions
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                document.getElementById('loading-message').textContent = 'Saving changes...';
+                loadingScreen.style.display = 'block';
+            });
+        });
+    });
+    
+    // Show loading screen immediately when the page starts loading
+    window.addEventListener('beforeunload', function() {
+        document.getElementById('loading-screen').style.display = 'block';
+    });
+</script>
 <div id="overlay" class="overlay" style="display: none;"></div>
 <div class="mt-4">
     <div class="card shadow-sm p-4 mb-4">
