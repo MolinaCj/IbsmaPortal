@@ -17,7 +17,7 @@ class AdminLoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('login_admin/login');
+        return view('login_admin.login');
     }
 
     // Show Register Form
