@@ -17,10 +17,8 @@ class AdminLoginController extends Controller
 {
 public function showLoginForm()
 {
-    return view('login_admin.login'); // dot notation
+    return 'Route and controller are working!';
 }
-
-
 
     // Show Register Form
     public function showRegisterForm()
