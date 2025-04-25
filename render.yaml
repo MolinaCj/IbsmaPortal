@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: ibsma-portal
+    env: php
+    plan: free
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+      php artisan migrate --force
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        value: https://ibsma-portal.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-xxxxx.render.com
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: ibsma_db
+      - key: DB_USERNAME
+        value: ibsma_user
+      - key: DB_PASSWORD
+        sync: false
+      - key: LOG_CHANNEL
+        value: stack
+      - key: SESSION_DRIVER
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
