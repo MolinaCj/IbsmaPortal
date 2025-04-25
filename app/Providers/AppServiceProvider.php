@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
@@ -24,5 +25,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         app(Schedule::class)->command('app:clean-old-login-attempts')->everyMinute();
+
+
+        if(request()->server('HTTP_X_FORWARDED_PROTO') == 'https' || request()->server('HTTPS') == 'on') {
+            URL::forceScheme('https');
+        }
     }
+
 }
