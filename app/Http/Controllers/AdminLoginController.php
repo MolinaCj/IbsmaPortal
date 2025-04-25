@@ -15,14 +15,11 @@ use Illuminate\Support\Facades\Session;
 
 class AdminLoginController extends Controller
 {
-    public function showLoginForm()
+public function showLoginForm()
 {
-    try {
-        return view('login_admin.login'); // dot notation
-    } catch (\Exception $e) {
-        dd($e->getMessage());
-    }
+    return view('login_admin.login'); // dot notation
 }
+
 
 
     // Show Register Form
