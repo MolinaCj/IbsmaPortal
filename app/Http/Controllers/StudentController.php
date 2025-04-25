@@ -26,9 +26,9 @@ class StudentController extends Controller
  public function index(Request $request)
  {
      // Ensure the admin is logged in
-     if (!session()->has('admin_logged_in')) {
-         return redirect()->route('admin.login')->with('error', 'You must log in first.');
-     }
+     // if (!session()->has('admin_logged_in')) {
+     //     return redirect()->route('admin.login')->with('error', 'You must log in first.');
+     // }
      $currentSemester = Setting::orderBy('id', 'desc')->value('current_semester') ?? 1;
      $teachers = Teacher::all();
      $search = $request->input('search');
