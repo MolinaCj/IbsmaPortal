@@ -78,9 +78,11 @@ Route::post('/special-subjects/{id}/update-schedule', [SubjectController::class,
 Route::post('/admin/students/{studentId}/recheck-subjects', [StudentController::class, 'recheckStudentSubjects']);
 //promote single student
 Route::post('/promote-student/{studentId}', [StudentController::class, 'incrementYearLevelForStudent'])->name('promote.student');
-//shiting
+//shifting
 Route::post('/admin/students/{student_id}/shift-department/{new_department_id}', [StudentController::class, 'shiftDepartment']);
 
+//NULL to 90
+Route::post('/students/set-null-grades-to-ninety', [StudentController::class, 'setNullGradesToNinety'])->name('students.set-null-grades-to-ninety');
 // Show the modal with eligible students for graduation (GET request)
 Route::get('admin/settings/graduation', [AdminDashboardController::class, 'settings'])->name('admin.settings.graduation');
 // Process the selected students for graduation (POST request)
