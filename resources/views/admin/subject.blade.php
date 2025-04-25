@@ -7,7 +7,84 @@
     .table-striped tbody tr:nth-of-type(odd) {
         background-color: rgba(215, 215, 215, 0) !important; /* Lighter stripe with low opacity */
     }
+    /* Loading Screen Styles */
+    #loading-screen {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+    }
+    
+    /* Overlay effect (dims the background) */
+    #loading-screen .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        z-index: 9998; /* Places it behind the loader but above the rest of the content */
+    }
+    
+    /* Loader container (centered image) */
+    #loading-screen .loader-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 9999; /* Places it on top of the overlay */
+    }
+    
+    #loading-screen img {
+        width: 100px; /* You can adjust the size of your logo */
+        height: auto;
+        animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+    }
 </style>
+
+    <!-- Toast Container -->
+    <div aria-live="polite" aria-atomic="true" style="position: absolute; top: 0; right: 0; z-index: 1050;">
+        <div id="toast-container">
+            <!-- Toast message will appear here -->
+        </div>
+    </div>
+@if(session('success'))
+    <script>
+        window.onload = () => {
+            showToast("success", "{{ session('success') }}");
+        };
+    </script>
+@endif
+
+@if($errors->any())
+    <script>
+        window.onload = () => {
+            let errors = @json($errors->all());
+            errors.forEach(error => showToast("danger", error));
+        };
+    </script>
+@endif
+
+<!-- Your Loading Screen -->
+<div id="loading-screen">
+    <div class="overlay"></div> <!-- Dimmed background -->
+    <div class="loader-container">
+        <img src="{{ asset('storage/ibsmalogo.png') }}" alt="Loading" class="loader-image">
+        <p id="loading-message" style="color: white; font-size: 18px; margin-top: 10px;">Loading subjects...</p>
+    </div>
+</div>
+
+
 <div class="container-fluid">
     @if (request('show_special') != 1)
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -966,25 +1043,28 @@ flex-direction: row;">
                                                                                             @endforeach
                                                                                         </select>
                                                                                     </div>
-                                                                                    <div class="mb-3">
-                                                                                        <label for="semester" class="form-label">Semester</label>
-                                                                                        <select class="form-control" id="semester" name="semester" required>
-                                                                                            <option value="" {{ is_null($subject->semester) ? 'selected' : '' }}>Not Set</option>
-                                                                                            <option value="1" {{ $subject->semester == 1 ? 'selected' : '' }}>1st Semester</option>
-                                                                                            <option value="2" {{ $subject->semester == 2 ? 'selected' : '' }}>2nd Semester</option>
-                                                                                            <option value="2" {{ $subject->semester == 3 ? 'selected' : '' }}>Summer Semester</option>
-                                                                                        </select>
+                                                                                    <div class="row">
+                                                                                        <div class="mb-3 col-md-6">
+                                                                                            <label for="semester" class="form-label">Semester</label>
+                                                                                            <select class="form-control" id="semester" name="semester" required>
+                                                                                                <option value="" {{ is_null($subject->semester) ? 'selected' : '' }}>Not Set</option>
+                                                                                                <option value="1" {{ $subject->semester == 1 ? 'selected' : '' }}>1st Semester</option>
+                                                                                                <option value="2" {{ $subject->semester == 2 ? 'selected' : '' }}>2nd Semester</option>
+                                                                                                <option value="3" {{ $subject->semester == 3 ? 'selected' : '' }}>Summer Semester</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                        <div class="mb-3 col-md-6">
+                                                                                            <label for="year" class="form-label">Year Level</label>
+                                                                                            <select class="form-control" id="year" name="year" required>
+                                                                                                <option value="" {{ is_null($subject->year) ? 'selected' : '' }}>Not Set</option>
+                                                                                                <option value="1" {{ $subject->year == 1 ? 'selected' : '' }}>1st Year</option>
+                                                                                                <option value="2" {{ $subject->year == 2 ? 'selected' : '' }}>2nd Year</option>
+                                                                                                <option value="3" {{ $subject->year == 3 ? 'selected' : '' }}>3rd Year</option>
+                                                                                                <option value="4" {{ $subject->year == 4 ? 'selected' : '' }}>4th Year</option>
+                                                                                            </select>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="mb-3">
-                                                                                        <label for="year" class="form-label">Year Level</label>
-                                                                                        <select class="form-control" id="year" name="year" required>
-                                                                                            <option value="" {{ is_null($subject->year) ? 'selected' : '' }}>Not Set</option>
-                                                                                            <option value="1" {{ $subject->year == 1 ? 'selected' : '' }}>1st Year</option>
-                                                                                            <option value="2" {{ $subject->year == 2 ? 'selected' : '' }}>2nd Year</option>
-                                                                                            <option value="3" {{ $subject->year == 3 ? 'selected' : '' }}>3rd Year</option>
-                                                                                            <option value="4" {{ $subject->year == 4 ? 'selected' : '' }}>4th Year</option>
-                                                                                        </select>
-                                                                                    </div>                                                                                 
+                                                                                                                                                           
                                                                                     <div class="mb-3">
                                                                                         <label for="teacher_id" class="form-label">Instructor</label>
                                                                                         <select class="form-control" id="teacher_id" name="teacher_id">
@@ -992,15 +1072,15 @@ flex-direction: row;">
                                                                                                 $selectedTeacherId = $subject->teacher_id;
                                                                                                 $selectedTeacherName = $subject->teacher->name ?? 'Select Instructor';
                                                                                             @endphp
-                                                                                            <!-- Set the currently selected teacher as the selected option -->
+                                                                                    
+                                                                                            <!-- Selected Teacher -->
                                                                                             <option value="{{ $selectedTeacherId }}" selected>{{ $selectedTeacherName }}</option>
                                                                                     
-                                                                                            <!-- Filtered Teachers (Same Department) -->
+                                                                                            <!-- Same Department Teachers -->
                                                                                             @foreach($teachers as $dept_id => $teacherGroup)
                                                                                                 @if($dept_id == $subject->department_id)
-                                                                                                    <optgroup label="Same Department">
+                                                                                                    <optgroup label="Same Department ({{ $departments[$dept_id]->name ?? 'Unknown' }})">
                                                                                                         @foreach($teacherGroup as $teacher)
-                                                                                                            <!-- Don't add the currently selected teacher again -->
                                                                                                             @if($teacher->id != $selectedTeacherId)
                                                                                                                 <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                                                                                                             @endif
@@ -1009,10 +1089,10 @@ flex-direction: row;">
                                                                                                 @endif
                                                                                             @endforeach
                                                                                     
-                                                                                            <!-- Non-filtered Teachers (Other Departments) -->
+                                                                                            <!-- Other Departments -->
                                                                                             @foreach($teachers as $dept_id => $teacherGroup)
                                                                                                 @if($dept_id != $subject->department_id)
-                                                                                                    <optgroup label="-----------------">
+                                                                                                    <optgroup label="{{ $departments[$dept_id]->name ?? 'Other Department' }}">
                                                                                                         @foreach($teacherGroup as $teacher)
                                                                                                             <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                                                                                                         @endforeach
@@ -1021,6 +1101,7 @@ flex-direction: row;">
                                                                                             @endforeach
                                                                                         </select>
                                                                                     </div>
+                                                                                    
                                                                                                                                                                        
                                                                                 </div>
                                                                                 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script> --}}
@@ -1236,7 +1317,38 @@ flex-direction: row;">
                                 <input type="radio" name="major" value="0"> No
                             </label>
                         </div>
-                    </div>    
+                    </div>
+                    <div class="mb-3">
+                        <label for="department_id" class="form-label">Department</label>
+                        <select class="form-control" id="department_id" name="department_id" required onchange="filterTeachers()">
+                            <option value="">Select Department</option>
+                            @foreach($departments as $department)
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>   
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="semester" class="form-label">Semester</label>
+                            <select class="form-control" id="semester" name="semester" required>
+                                <option value="">Select Semester</option>
+                                <option value="1">1st Semester</option>
+                                <option value="2">2nd Semester</option>
+                                <option value="3">Summer Semester</option> <!-- Changed value to 3 for consistency -->
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="year" class="form-label">Year Level</label>
+                            <select class="form-control" id="year" name="year" required>
+                                <option value="">Select Year Level</option>
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3">3rd Year</option>
+                                <option value="4">4th Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    
                     <div class="mb-3">
                         <label>Code</label>
                         <input type="text" class="form-control" name="code" required>
@@ -1335,47 +1447,34 @@ flex-direction: row;">
                         <label>Room</label>
                         <input type="text" class="form-control" name="room">
                     </div>
-                    <div class="mb-3">
-                        <label for="department_id" class="form-label">Department</label>
-                        <select class="form-control" id="department_id" name="department_id" required onchange="filterTeachers()">
-                            <option value="">Select Department</option>
-                            @foreach($departments as $department)
-                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="semester" class="form-label">Semester</label>
-                        <select class="form-control" id="semester" name="semester" required>
-                            <option value="">Select Semester</option>
-                            <option value="1">1st Semester</option>
-                            <option value="2">2nd Semester</option>
-                            <option value="2">Summer Semester</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="year" class="form-label">Year Level</label>
-                        <select class="form-control" id="year" name="year" required>
-                            <option value="">Select Year Level</option>
-                            <option value="1">1st Year</option>
-                            <option value="2">2nd Year</option>
-                            <option value="3">3rd Year</option>
-                            <option value="4">4th Year</option>
-                        </select>
-                    </div>                
+                    
+                            
                     <div class="mb-3">
                         <label for="teacher_id" class="form-label">Instructor</label>
                         <select class="form-control" id="teacher_id" name="teacher_id">
                             <option value="">Select Instructor</option>
-                            @foreach($teachers as $dept_id => $teacherGroup)
-                                @foreach($teacherGroup as $teacher)
-                                    <option value="{{ $teacher->id }}" data-department="{{ $teacher->department_id }}">
-                                        {{ $teacher->name }}
-                                    </option>
-                                @endforeach
+                    
+                            <!-- Loop through departments sorted by name -->
+                            @foreach($departments as $department)
+                                @php
+                                    // Get teachers for this department and sort them by name
+                                    $teachersInDept = $teachers->get($department->id, collect())->sortBy('name');
+                                @endphp
+                                @if($teachersInDept->isNotEmpty())
+                                    <optgroup label="{{ $department->name }}">
+                                        @foreach($teachersInDept as $teacher)
+                                            <option value="{{ $teacher->id }}" data-department="{{ $teacher->department_id }}">
+                                                {{ $teacher->name }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
                             @endforeach
                         </select>
                     </div>
+                    
+                    
+                    
                 </div>
                 <div class="modal-footer">
                     <!-- Submit button is inside the modal-footer now -->
@@ -1385,6 +1484,84 @@ flex-direction: row;">
         </div>
     </div>
 </div>
+
+<script>
+    // Loading screen functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide loading screen when page is fully loaded
+        const loadingScreen = document.getElementById('loading-screen');
+        
+        // Set a minimum display time for the loader (at least 800ms)
+        setTimeout(function() {
+            loadingScreen.style.display = 'none';
+        }, 800);
+        
+        // Show loading screen when navigating away
+        document.addEventListener('click', function(e) {
+            // Check if the clicked element is a link or submit button that would navigate away
+            const target = e.target.closest('a, button[type="submit"]');
+            if (target) {
+                // Exclude elements that shouldn't trigger the loader
+                const excludeSelectors = [
+                    '[data-bs-toggle="modal"]',  // Modal toggles
+                    '[data-bs-toggle="collapse"]', // Collapse toggles
+                    '.btn-close',  // Close buttons
+                    '.remove-schedule-btn', // Schedule removal buttons
+                    '.add-schedule-btn', // Schedule add buttons
+                    '.save-btn:not([type="submit"])' // Save buttons that don't submit forms
+                ];
+                
+                const shouldExclude = excludeSelectors.some(selector => 
+                    target.matches(selector)
+                );
+                
+                if (!shouldExclude && !e.ctrlKey && !e.metaKey) {
+                    // If it's a normal navigation (not opening in new tab)
+                    const message = target.closest('form') ? 
+                        'Saving changes...' : 
+                        'Loading...';
+                    
+                    document.getElementById('loading-message').textContent = message;
+                    loadingScreen.style.display = 'block';
+                }
+            }
+        });
+        
+        // Also show loading on form submissions
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                document.getElementById('loading-message').textContent = 'Saving changes...';
+                loadingScreen.style.display = 'block';
+            });
+        });
+    });
+    
+    // Show loading screen immediately when the page starts loading
+    window.addEventListener('beforeunload', function() {
+        document.getElementById('loading-screen').style.display = 'block';
+    });
+</script>
+<script>
+    function showToast(type, message) {
+        let toastHTML = `
+            <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        `;
+        
+        let toastContainer = document.getElementById('toast-container');
+        toastContainer.innerHTML = toastHTML;
+
+        let toastElement = toastContainer.querySelector('.toast');
+        let toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+        toast.show();
+    }
+</script>
 
 
 <style>
