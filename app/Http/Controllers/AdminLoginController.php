@@ -17,7 +17,7 @@ class AdminLoginController extends Controller
 {
 public function showLoginForm()
 {
-    return 'Route and controller are working!';
+    return view ('login_admin.login');
 }
 
     // Show Register Form
@@ -186,7 +186,7 @@ public function resetPassword(Request $request)
     $admin->save();
 
     // return redirect()->route('admin.login')->with('status', 'Password successfully updated.');
-    return redirect()->route('admin.login')->with([
+    return redirect()->route('login_admin.login')->with([
         'status' => 'Password successfully updated.',
         'status_type' => 'password_reset'
     ]);
@@ -214,7 +214,7 @@ public function resetUsername(Request $request)
     $admin->save();
 
     // return redirect()->route('admin.login')->with('status', 'Username successfully updated.');
-    return redirect()->route('admin.login')->with([
+    return redirect()->route('login_admin.login')->with([
         'status' => 'Username successfully updated.',
         'status_type' => 'username_reset'
     ]);
@@ -229,7 +229,7 @@ public function resetUsername(Request $request)
         Cache::forget('lockout_' . Str::lower($username));
 
         session()->flush();
-        return redirect()->route('admin.login');
+        return redirect()->route('login_admin.login');
     }
 
 }
