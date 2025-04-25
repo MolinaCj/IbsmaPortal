@@ -1,0 +1,22 @@
+/* added march 25 */
+/* Target only the Edit Teacher modal */
+#editTeacherModal .modal-content {
+    border-radius: 12px; /* Soft rounded edges */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#editTeacherModal .modal-header {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+#editTeacherModal .form-control {
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#editTeacherModal .btn-success {
+    border-radius: 8px;
+    font-size: 16px;
+}

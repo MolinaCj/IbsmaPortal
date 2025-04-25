@@ -1,0 +1,789 @@
+ /* Full Navbar Container */
+ .custom-navbar {
+    background: #16C47F; /* Solid Green Background */
+    padding: 14px 28px;
+    border-radius: 60px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin: 20px auto;
+    max-width: 1400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease-in-out;
+}
+
+/* Sticky Navbar Effect for Desktop Only */
+@media (min-width: 992px) {
+    .custom-navbar.sticky {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        z-index: 999;
+        background: #16C47F;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        animation: slideDownSticky 0.3s ease-in-out;
+    }
+
+    /* Slide Down Animation for Sticky Effect */
+    @keyframes slideDownSticky {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* Logo */
+.navbar-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Logo Hover Effect */
+.navbar-logo:hover {
+    transform: scale(1.1);
+}
+
+/* School Name */
+.school-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-left: 14px;
+    font-family: "Alegreya", serif;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar Links */
+.navbar-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Navbar Link Design - Bold and Clean */
+.nav-link {
+    color: white;
+    font-weight: 700; /* Bold Text */
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect for Links */
+.nav-link:hover {
+    background-color: white;
+    color: #16C47F;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Login Button */
+.btn-login {
+    background: white;
+    color: #16C47F;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    border: 2px solid #16C47F;
+}
+
+/* Button Hover Effect */
+.btn-login:hover {
+    background: #16C47F;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.3);
+}
+
+/* Burger Menu Icon */
+.burger-menu {
+    cursor: pointer;
+    font-size: 26px;
+    color: white;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+/* Rotate Icon on Toggle */
+.burger-menu.active {
+    transform: rotate(90deg); /* Rotate icon when active */
+}
+/* Hide Navbar Links on Mobile */
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none;
+    }
+
+    .burger-menu {
+        display: block;
+    }
+}
+
+/* Mobile Menu Styling */
+#mobileMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #16C47F;
+    padding: 15px;
+    border-radius: 15px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* Show Mobile Menu on Toggle */
+#mobileMenu.show {
+    max-height: 300px; /* Set a reasonable height */
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Slide Down Animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile View Adjustments */
+@media (max-width: 768px) {
+    .custom-navbar {
+        padding: 14px 18px;
+    }
+
+    .navbar-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .school-name {
+        font-size: 20px;
+    }
+
+    .burger-menu {
+        display: block;
+    }
+
+    #mobileMenu {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+
+
+        /* Auto Image Slider */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 1800px;
+            height: 85vh;
+            overflow: hidden;
+            margin: 20px auto;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        /* Container for School Name on Top Left */
+.slider-container .school-name-overlay {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    z-index: 10;
+    color: #fff;
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
+    display: inline-block;
+    -webkit-text-stroke: 1.5px #fff; /* White outline */
+    font-family: "Alegreya", serif;
+            font-optical-sizing: auto;
+
+}
+
+/* Style for the Static First Word */
+.school-name-overlay .static-word {
+    opacity: 1;
+    transform: translateX(0);
+    display: inline-block;
+}
+
+/* Style for Dynamic Words with Smooth Fade and Zoom Effect */
+.school-name-overlay .dynamic-word {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    animation: fadeZoomIn 8s infinite ease-in-out;
+    display: inline-block;
+    margin-left: 12px;
+}
+
+/* Smooth Zoom-In and Fade Effect */
+@keyframes fadeZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    10% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.05) translateY(0);
+    }
+    50% {
+        opacity: 0;
+        transform: scale(1.1) translateY(-20px);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+}
+
+/* Optional - Make the Text Glow on Hover */
+.school-name-overlay:hover {
+    color: #19c278;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    -webkit-text-stroke: 1.5px #fff; /* Retain white outline on hover */
+    transition: all 0.3s ease-in-out;
+}
+/* Hide School Name on Mobile View */
+@media (max-width: 768px) {
+    .slider-container .school-name-overlay {
+        display: none;
+    }
+}
+
+
+
+        .slider-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            border-radius: 25px;
+        }
+
+        .slider-img.active {
+            opacity: 1;
+        }
+
+        /* Overlay to Improve Readability */
+        .slider-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 25px;
+        }
+
+        /* Content Over the Slider */
+        .slider-content {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .slider-content h1 {
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .slider-content p {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        /* Vision & Mission Glass Effect */
+.vision-mission-section {
+    position: relative;
+    z-index: 1;
+}
+
+/* Fix for Equal Height and Animation */
+#about.vision-mission-section {
+    position: relative;
+    width: 100%;
+    max-width: 1900px;
+    margin: 0 auto;
+    bottom: 0;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: stretch; /* Ensures equal height */
+}
+
+/* Glass Box Styling - Equal Height & Centered */
+#about .glass-box {
+    width: 45%;
+    max-width: 800px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.235);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
+
+/* Icon, Heading, and Text Styling */
+#about .glass-box i {
+    font-size: 2rem;
+    color: #ffcc00;
+    margin-bottom: 10px;
+    transition: transform 0.5s ease-in-out;
+}
+
+#about .glass-box h4 {
+    color: #fff;
+    font-weight: bold;
+    margin-top: 10px;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+#about .glass-box p {
+    color: #f8f8f8;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+/* Hover Effect for Glass Box */
+#about .glass-box:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Icon Rotation on Hover */
+#about .glass-box:hover i {
+    transform: rotateY(360deg);
+}
+
+/* Responsive Fix - Tablet and Mobile View */
+@media (max-width: 992px) {
+    #about.vision-mission-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #about .glass-box {
+        width: 90%;
+    }
+}
+
+/* Center Properly on Larger Screens */
+@media (min-width: 993px) {
+    #about.vision-mission-section {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        width: 80%;
+    }
+}
+
+
+          /* Course Section Styling */
+    .courses-section {
+        background: none;
+        padding: 60px 20px;
+    }
+
+    /* Course Card Hover Effect */
+.course-card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Add the bottom hover line */
+.course-card::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 6px;
+    background-color: #16c47f; /* Green Line */
+    bottom: 0;
+    left: 50%;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+/* Expand line on hover */
+.course-card:hover::before {
+    width: 100%;
+}
+
+/* Slight zoom and shadow on hover */
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+    /* Icon Styling */
+    .course-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .course-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    /* Hover Effect for Icon */
+    .course-card:hover .course-icon {
+        transform: scale(1.1) rotate(10deg);
+    }
+
+
+
+    /* Responsive Grid Layout */
+    @media (max-width: 992px) {
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .col-md-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    /* ========== Updated Slide-In Effect for School Activities ========== */
+.carousel-inner {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Custom Slide-In Effect */
+.carousel-item {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Slide-In Effect for Active Item */
+.carousel-item.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Activity Card Style */
+.activity-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+/* Activity Card Hover Effect */
+.activity-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Activity Image */
+.activity-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Zoom Effect */
+.activity-img:hover {
+    transform: scale(1.05);
+}
+
+/* Activity Title */
+.activity-title {
+    color: #32CD32;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Modal Image Zoom */
+#imageModal .modal-content {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Modal Close Button */
+.btn-close {
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 50%;
+    transition: 0.3s ease;
+}
+
+/* Modal Close Button Hover */
+.btn-close:hover {
+    background-color: #f8f9fa;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    .activities-section {
+        padding: 40px 0;
+    }
+
+    .activity-card {
+        padding: 20px;
+    }
+
+    .activity-title {
+        font-size: 1.3rem;
+    }
+
+    .activity-card p {
+        font-size: 0.9rem;
+    }
+}
+
+
+
+
+
+
+     /* Modern Footer Styling */
+     .modern-footer {
+        background: linear-gradient(135deg, rgba(22, 196, 127, 0.95), rgba(20, 167, 108, 0.95));
+        padding: 60px 20px;
+        color: white;
+        border-top-left-radius: 60px;
+        border-top-right-radius: 60px;
+    }
+
+    /* Footer Title */
+    .footer-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 18px;
+    }
+
+    /* Footer Description */
+    .footer-description {
+        font-size: 14px;
+        line-height: 1.8;
+        margin-bottom: 10px;
+    }
+
+    /* Footer Links & Info */
+    .footer-links,
+    .footer-info {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li,
+    .footer-info li {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .footer-link {
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .footer-link:hover {
+        color: #ffc107;
+    }
+
+    /* Contact Info Icons */
+    .footer-info i {
+        margin-right: 8px;
+        color: #ffc107;
+    }
+
+    /* Social Media Icons */
+    .footer-social a {
+        width: 45px;
+        height: 45px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 18px;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+    }
+
+    .footer-social a:hover {
+        background: #ffc107;
+        color: #14A76C;
+        transform: scale(1.1);
+    }
+
+    /* Divider Line */
+    .footer-divider {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Footer Bottom Links */
+    .footer-bottom-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-bottom-link {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .footer-bottom-link:hover {
+        color: #ffc107;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .modern-footer {
+            padding: 40px 15px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+
+        .footer-bottom-links {
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+
+
+
+
+
+    /* Custom Modal Style */
+.modal-content {
+    background: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Header */
+.modal-header {
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #16C47F;
+    color: white;
+}
+
+/* Modal Title */
+.modal-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+/* Modal Body Padding */
+.modal-body {
+    padding: 20px;
+}
+
+/* Input Group Styling */
+.input-group-text {
+    background-color: #16C47F;
+    color: white;
+}
+
+/* Input Field */
+.form-control {
+    border-radius: 8px;
+}
+
+/* Toggle Password Icon */
+.toggle-admin-password {
+    cursor: pointer;
+}
+
+/* Login Button Style */
+.btn-success {
+    background-color: #16C47F;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Button Hover */
+.btn-success:hover {
+    background-color: #13A364;
+    box-shadow: 0 0 12px rgba(22, 196, 127, 0.9);
+}
+
+/* Forgot Password Link */
+.text-danger:hover {
+    text-decoration: underline;
+}

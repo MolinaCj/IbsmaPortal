@@ -1,0 +1,33 @@
+/* Sidebar general styling */
+#sidebarMenu {
+    background-color: #001f3f; /* Dark blue background */
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar links styling */
+#sidebarMenu .nav-link {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar links hover effect */
+#sidebarMenu .nav-link:hover {
+    background-color: #0056b3; /* Lighter blue */
+    color: #ffffff;
+    transform: translateX(10px);
+}
+
+/* Active link styling */
+#sidebarMenu .nav-link.active {
+    background-color: #0056b3; /* Lighter blue for active */
+    font-weight: bold;
+}
+
+/* Icon sizing and spacing */
+#sidebarMenu .nav-link i {
+    font-size: 1.2rem;
+    vertical-align: middle;
+}

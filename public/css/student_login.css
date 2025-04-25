@@ -1,0 +1,1092 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Modified MARCH 28 */
+/* Fullscreen Loading Screen */
+#student-loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95); /* Slightly darker for better visibility */
+    display: flex; /* Ensure it is initially visible */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.6s ease-in-out; /* Smooth fade-out */
+}
+
+/* When hidden, disable interaction */
+#student-loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none; /* ✅ Prevents blocking clicks */
+    display: none; /* ✅ Ensures it disappears */
+}
+
+/* Centered Loader Image */
+.loader-image {
+    width: 100px; /* Default size */
+    height: 100px;
+    object-fit: contain;
+    animation: fadeInOut 1.5s infinite ease-in-out;
+}
+
+/* Pulse effect for fade-in and fade-out */
+@keyframes fadeInOut {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) { /* Tablet View */
+    .loader-image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (min-width: 1024px) { /* Desktop View */
+    .loader-image {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+
+body {
+    background-color: rgba(152, 209, 250, 0.168); /* Clean white background */
+    color: #333; /* Dark gray text for readability */
+}
+.courses{
+    min-height: 80vh;
+}
+/* Navbar Styling */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other elements */
+    transition: background 0.3s ease-in-out;
+}
+
+/* Social Icons */
+.social {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.social a {
+    color: #333;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.social a:hover {
+    color: #16C47F;
+}
+
+/* Navigation Links */
+.links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Base Style for Links */
+.links a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    position: relative;
+    padding: 5px 0;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Hover Effect: Change Text Color */
+.links a:hover {
+    color: #16C47F;
+}
+
+/* Underline Animation */
+.links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0%;
+    height: 3px;
+    background: #16C47F;
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+/* Expanding Underline on Hover */
+.links a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Glow Effect on Hover */
+.links a:hover {
+    text-shadow: 0px 0px 10px rgba(22, 196, 127, 0.7);
+}
+
+
+/* Logo & Title */
+.title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logos {
+    height: 50px;
+}
+
+
+
+/* Logo & Title */
+.title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logos {
+    height: 50px;
+}
+
+/* Login Button */
+button {
+    background-color: #16C47F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background-color: #13A56B;
+    box-shadow: 0px 4px 10px rgba(22, 196, 127, 0.2);
+}
+
+/* Ensure modals are hidden by default */
+.custom-modal {
+    display: none; /* Keep it hidden until clicked */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Content */
+.custom-modal-content {
+    background: white;
+    padding: 30px;
+    width: 50%;
+    max-width: 500px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Close Button */
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-modal:hover {
+    color: red;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+    .custom-modal-content {
+        width: 90%;
+    }
+}
+
+/* Fix Modal Not Clickable */
+.modal.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure Login Modal is on Top */
+.admin-login-modal {
+    z-index: 1100 !important;
+    background: rgba(0, 0, 0, 0.5); /* Ensures a transparent background */
+}
+
+/* Ensure Login Button is Clickable */
+.admin-login-modal .modal-content {
+    position: relative;
+    z-index: 1101;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+.modal-backdrop {
+    z-index: 1050 !important; /* Ensure it's behind the modal */
+}
+
+.admin-login-modal {
+    z-index: 1100 !important;
+}
+
+/* Ensure Reset Password Modal is on Top */
+#resetPasswordModal {
+    z-index: 1100 !important;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
+
+/* Ensure Modal Content is Clickable */
+#resetPasswordModal .modal-content {
+    position: relative;
+    z-index: 1101;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Ensure Backdrop is Behind the Modal */
+.modal-backdrop {
+    z-index: 1050 !important;
+}
+
+/* Fix Modal Not Clickable & Center It */
+.modal.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
+
+@media (max-width: 900px) {
+    .position-absolute.d-flex {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 30px !important;
+        width: 90% !important;
+    }
+
+    .position-absolute.d-flex > div {
+        width: 100% !important;
+    }
+
+    h1.position-absolute {
+        font-size: 18px !important;
+        padding: 10px 20px !important;
+    }
+}
+
+
+
+
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+/* Courses Section Title */
+.courses-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #16C47F;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Courses Container */
+.courses-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    gap: 100px;
+    margin: 0 auto;
+}
+
+/* Course Card */
+.course-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding: 30px;
+}
+
+/* Course Icons */
+.course-icon {
+    font-size: 50px;
+    color: #16C47F;
+    margin-bottom: 15px;
+}
+
+/* Course Card Heading */
+.course-card h2 {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #333;
+}
+
+/* Course Description */
+.course-card p {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+}
+
+/* View Course Button */
+.btn-custom {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #16C47F;
+    color: white;
+    font-weight: bold;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.btn-custom:hover {
+    background: #13A56B;
+    transform: scale(1.05);
+}
+
+/* Hover Effects */
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .courses-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Course Modal Background */
+.course-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Course Modal Content */
+.course-modal-content {
+    background: white;
+    padding: 30px;
+    width: 60%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Close Button */
+.close-course-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-course-modal:hover {
+    color: red;
+}
+
+/* Two-Column Layout */
+.modal-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+/* Right Side: Course Logo & Name */
+.modal-right {
+    flex: 1;
+    text-align: center;
+    border-right: 2px solid #16C47F;
+    padding-right: 20px;
+}
+
+.course-modal-icon {
+    font-size: 50px;
+    color: #16C47F;
+    margin-bottom: 10px;
+}
+
+.modal-right h2 {
+    font-size: 20px;
+    color: #333;
+}
+
+/* Left Side: Course Description */
+.modal-left {
+    flex: 2;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.modal-left p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .course-modal-content {
+        width: 90%;
+    }
+
+    .modal-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .modal-right {
+        border-right: none;
+        border-bottom: 2px solid #16C47F;
+        padding-bottom: 15px;
+        padding-right: 0;
+    }
+
+    .modal-left {
+        padding-left: 0;
+        padding-top: 15px;
+    }
+}
+
+
+
+
+
+/* General Section Styling */
+.school-activities-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #16C47F;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+/* School Logo & Text Alignment */
+.school-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between logo and text */
+}
+
+.school-logo img {
+    width: 50px; /* Adjust size */
+    height: auto;
+    border-radius: 5px; /* Optional rounded corners */
+}
+
+.school-logo h1 {
+    font-size: 26px;
+    color: #16C47F;
+    margin: 0;
+}
+
+/* Activities Wrapper */
+.activities-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Activities Container (Side-by-Side Layout) */
+.activities-container {
+    display: flex;
+    justify-content: space-between;
+    /* gap: 20px; */
+    flex-wrap: wrap;
+}
+
+/* Each Activity Category (Glassmorphism Effect) */
+.activity-category {
+    flex: 1;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1); /* Transparent Background */
+    backdrop-filter: blur(10px); /* Glassmorphism Effect */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover Effect on Activity Category */
+.activity-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Activity Titles */
+.activities-subtitle {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #16C47F;
+    text-transform: uppercase;
+}
+
+/* Slider Container */
+.slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Activity Slider */
+.activity-slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Individual Activity */
+.activity {
+    min-width: 100%;
+    text-align: center;
+}
+
+.activity img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover Effect for Clickable Image */
+.activity img:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation Buttons */
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+    transition: background 0.3s ease-in-out;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+/* Image Viewer Modal */
+.image-modal {
+    display: none; /* Ensures modal is hidden initially */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Image */
+.modal-image {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Close Button */
+.close-image-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.close-image-modal:hover {
+    color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .activities-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .activity img {
+        height: 200px;
+    }
+}
+
+/* Footer Section (Glassmorphism Effect) */
+.footer {
+    width: 100%;
+    background: rgba(18, 18, 18, 0.9); /* Slightly transparent */
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    color: white;
+    padding: 50px 0;
+    margin: 0;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer Container */
+/* Responsive Footer */
+@media (max-width: 900px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .quick-links ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* School Info Section */
+.school {
+    flex: 1;
+    padding: 10px;
+}
+
+.school h1 {
+    font-size: 26px;
+    color: #16C47F;
+    margin-bottom: 10px;
+}
+
+.school p {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+/* Quick Links */
+.quick-links {
+    flex: 1;
+    padding: 10px;
+}
+
+.quick-links h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #16C47F;
+}
+
+.quick-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.quick-links ul li {
+    margin: 8px 0;
+}
+
+.quick-links ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    opacity: 0.8;
+    transition: color 0.3s ease-in-out, transform 0.2s;
+}
+
+.quick-links ul li a:hover {
+    color: #16C47F;
+    transform: translateX(5px);
+}
+
+/* BAGONG LAGAY MARCH 23 */
+/* COURSE ICON CSS */
+.course-icon {
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+}
+
+
+/* MODIFIED MARCH 28 */
+/* CSS FOR MISSION AND VISION */
+.mission-vision-section {
+    background-color: #16c47f;
+    color: white;
+    padding: 60px 15px; /* Adjusted padding for better spacing */
+    text-align: center;
+}
+
+/* Container */
+.mission-vision-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Reduced gap for mobile */
+}
+
+/* Box Styling */
+.mission-vision-box {
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px; /* Adjusted max width */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 250px;
+    backdrop-filter: blur(5px); /* Adds slight blur effect */
+}
+
+/* Heading & Text */
+.mission-vision-box h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    opacity: 1 !important; /* Ensure text is always visible */
+    transform: translateY(0) !important;
+}
+
+.mission-vision-box p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Hover Effect */
+.mission-vision-box:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive for Tablet (iPads) */
+@media (min-width: 768px) {
+    .mission-vision-container {
+        flex-direction: row;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    .mission-vision-box {
+        width: 48%;
+        min-height: 280px;
+    }
+
+    .mission-vision-box h2 {
+        font-size: 1.8rem;
+    }
+
+    .mission-vision-box p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Desktop View */
+@media (min-width: 1024px) {
+    .mission-vision-section {
+        padding: 80px 20px;
+    }
+
+    .mission-vision-box {
+        min-height: 300px;
+    }
+
+    .mission-vision-box h2 {
+        font-size: 2rem;
+    }
+
+    .mission-vision-box p {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* added march 24 */
+/* ABOUT US CSS */
+.about-section {
+    background: linear-gradient(to right, #16C47F, #0F9F64);
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 60px 20px;
+    width: 100%; /* Full-width */
+    margin: 0; /* Remove margin */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.about-section:hover {
+    transform: translateY(-5px);
+}
+
+/* Image Animation */
+.animate-img {
+    transform: scale(0.9);
+    transition: transform 0.5s ease-in-out;
+}
+
+.animate-img:hover {
+    transform: scale(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 40px 15px;
+    }
+    .about-section h1 {
+        font-size: 2rem;
+    }
+    .about-section p {
+        font-size: 1rem;
+    }
+}
+
+/* modified march28 */
+/* General Navbar Styling */
+.navbar {
+    background-color: #fff;
+    padding: 15px 20px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Institute Name */
+.institute-text {
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Green Accent */
+.text-green {
+    color: #16C47F;
+}
+
+/* Desktop Navigation */
+.navbar-nav .nav-link {
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #16C47F;
+}
+
+/* Active Link Effect */
+.navbar-nav .nav-link.active {
+    color: #16C47F;
+    text-decoration: underline;
+}
+
+/* Login Button */
+.btn-success {
+    background-color: #16C47F;
+    border-color: #16C47F;
+    transition: background 0.3s ease-in-out;
+}
+
+.btn-success:hover {
+    background-color: #13a36c;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 260px;
+    height: 100vh;
+    background: #16C47F;
+    box-shadow: -3px 0 8px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out;
+    padding: 60px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1050;
+}
+
+/* Mobile Menu Links */
+.mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-menu a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: color 0.3s ease-in-out;
+}
+
+.mobile-menu a:hover {
+    color: #f1f1f1;
+    text-decoration: underline;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Burger Menu */
+.burger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+    position: relative; /* Ensure it stays in place */
+}
+
+.burger-menu span {
+    display: block;
+    height: 4px;
+    width: 100%;
+    background-color: #16C47F;
+    border-radius: 2px;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Animation for Open State */
+.burger-menu.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.burger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+.burger-menu.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .institute-text {
+        font-size: 0.9rem;
+    }
+    .btn-success {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .institute-text {
+        font-size: 0.85rem;
+    }
+    .logos {
+        height: 40px;
+    }
+    .mobile-menu {
+        width: 100%;
+        padding-top: 60px;
+    }
+}
