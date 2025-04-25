@@ -1310,42 +1310,48 @@
                                                 }
                                             @endphp
                                             {{-- Loop through each subject --}}
-                                            @foreach ($subjects as $subject)
-                                            @php
-                                                $belongsToStudentDepartment = $subject->department_id == $student->department_id;
+@foreach ($subjects as $subject)
+@php
+    $belongsToStudentDepartment = $subject->department_id == $student->department_id;
 
-                                                if (!$belongsToStudentDepartment) {
-                                                    continue;
-                                                }
+    if (!$belongsToStudentDepartment) {
+        continue;
+    }
 
-                                                $grade = $subject->pivot->grade ?? null;
+    $grade = $subject->pivot->grade ?? null;
 
-                                                $highlightRed = is_null($grade) &&
-                                                    ($yearLevel < $student->year_level ||
-                                                    ($yearLevel == $student->year_level && $semester < $student->semester));
+    $highlightRed = is_null($grade) &&
+        ($yearLevel < $student->year_level ||
+        ($yearLevel == $student->year_level && $semester < $student->semester));
 
-                                                // Tracking if we've seen this subject before
-                                                $subjectId = $subject->id;
-                                                $isRetake = isset($allSeenSubjects[$subjectId]);
+    // Tracking if we've seen this subject before
+    $subjectId = $subject->id;
+    $isRetake = \App\Models\Grade::where('student_id', $student->student_id)
+        ->where('subject_id', $subject->id)
+        ->count() > 1; // More than one instance indicates a retake
 
-                                                // Mark it as seen
-                                                $allSeenSubjects[$subjectId] = true;
-                                            @endphp
-                                                <tr class="{{ $highlightRed ? 'table-danger' : '' }}">
-                                                    <td>{{ $subject->code }}</td>
-                                                    <td>
-                                                        {{ $subject->name }}
-                                                        @if($isRetake)
-                                                            <span style="background: orange; color: black; padding: 2px 6px;">Retake</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" name="subjects[{{ $subject->id }}][grade]"
-                                                            class="grade-input {{ isset($grade) && $grade < 75 ? 'border-danger' : '' }}"
-                                                            value="{{ $grade }}" placeholder="Enter grade" step="0.01">
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+    // Ensure the first instance of a retake is labeled as "Failed"
+    $firstInstance = !isset($allSeenSubjects[$subjectId]);
+    $label = $isRetake ? ($firstInstance ? 'Failed' : 'Retake') : null;
+
+    // Mark it as seen
+    $allSeenSubjects[$subjectId] = true;
+@endphp
+<tr class="{{ $highlightRed ? 'table-danger' : '' }}">
+    <td>{{ $subject->code }}</td>
+    <td>
+        {{ $subject->name }}
+        @if($label)
+            <span style="background: orange; color: black; padding: 2px 6px;">{{ $label }}</span>
+        @endif
+    </td>
+    <td>
+        <input type="number" name="subjects[{{ $subject->id }}][grade]"
+            class="grade-input {{ isset($grade) && $grade < 75 ? 'border-danger' : '' }}"
+            value="{{ $grade }}" placeholder="Enter grade" step="0.01">
+    </td>
+</tr>
+@endforeach
                                         </tbody>
                                     </table>
                                 </div>
