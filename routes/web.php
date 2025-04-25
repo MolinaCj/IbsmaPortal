@@ -124,7 +124,7 @@ Route::post('/students/check-duplicate-name', [StudentController::class, 'checkD
 
 
 // Show login form
-Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('login_admin.login');
 // Register admin
 Route::get('/admin/register', [AdminLoginController::class, 'showRegisterForm'])->name('admin.register');
 Route::post('/admin/register', [AdminLoginController::class, 'adminRegister'])->name('admin.register.submit');
