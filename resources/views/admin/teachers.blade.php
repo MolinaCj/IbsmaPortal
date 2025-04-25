@@ -2,6 +2,142 @@
 
 @section('content')
 <div class="container-fluid">
+    <!-- Your Loading Screen -->
+<div id="loading-screen" style="display: none;">
+    <div class="overlay"></div> <!-- Dimmed background -->
+    <div class="loader-container">
+        <img src="{{ asset('storage/ibsmalogo.png') }}" alt="Loading" class="loader-image">
+        <p id="loading-message" style="color: white; font-size: 18px; margin-top: 10px;"></p>
+    </div>
+</div>
+
+<style>
+    /* Overlay effect (dims the background) */
+   /* Loading Screen Styles */
+   #loading-screen {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+    }
+    
+    /* Overlay effect (dims the background) */
+    #loading-screen .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        z-index: 9998; /* Places it behind the loader but above the rest of the content */
+    }
+    
+    /* Loader container (centered image) */
+    #loading-screen .loader-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 9999; /* Places it on top of the overlay */
+    }
+    
+    #loading-screen img {
+        width: 100px; /* You can adjust the size of your logo */
+        height: auto;
+        animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+</style>
+
+<script>
+    // Loading screen functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide loading screen when page is fully loaded
+        const loadingScreen = document.getElementById('loading-screen');
+        
+        // Set a minimum display time for the loader (at least 800ms)
+        setTimeout(function() {
+            loadingScreen.style.display = 'none';
+        }, 800);
+        
+        // Show loading screen when navigating away
+        document.addEventListener('click', function(e) {
+            // Check if the clicked element is a link or submit button that would navigate away
+            const target = e.target.closest('a, button[type="submit"]');
+            if (target) {
+                // Exclude elements that shouldn't trigger the loader
+                const excludeSelectors = [
+                    '[data-bs-toggle="modal"]',  // Modal toggles
+                    '[data-bs-toggle="collapse"]', // Collapse toggles
+                    '.btn-close',  // Close buttons
+                    '.remove-schedule-btn', // Schedule removal buttons
+                    '.add-schedule-btn', // Schedule add buttons
+                    '.save-btn:not([type="submit"])' // Save buttons that don't submit forms
+                ];
+                
+                const shouldExclude = excludeSelectors.some(selector => 
+                    target.matches(selector)
+                );
+                
+                if (!shouldExclude && !e.ctrlKey && !e.metaKey) {
+                    // If it's a normal navigation (not opening in new tab)
+                    const message = target.closest('form') ? 
+                        'Saving changes...' : 
+                        'Loading...';
+                    
+                    document.getElementById('loading-message').textContent = message;
+                    loadingScreen.style.display = 'block';
+                }
+            }
+        });
+        
+        // Also show loading on form submissions
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                document.getElementById('loading-message').textContent = 'Saving changes...';
+                loadingScreen.style.display = 'block';
+            });
+            
+            // Handle form validation errors
+            form.addEventListener('invalid', function(e) {
+                // This event bubbles up from invalid form elements
+                // Hide the loading screen when any validation error occurs
+                loadingScreen.style.display = 'none';
+            }, true); // Use capturing phase to catch the event early
+            
+            // Also listen for input events on required fields to handle browser validation
+            form.querySelectorAll('[required]').forEach(field => {
+                field.addEventListener('invalid', function() {
+                    loadingScreen.style.display = 'none';
+                });
+            });
+        });
+        
+        // Add a timeout as a fallback to ensure the loading screen doesn't get stuck
+        let loadingTimeout = setTimeout(function() {
+            loadingScreen.style.display = 'none';
+        }, 5000); // 5 seconds max loading time
+        
+        // Clear the timeout when the page successfully loads
+        window.addEventListener('load', function() {
+            clearTimeout(loadingTimeout);
+        });
+    });
+    
+    // Show loading screen immediately when the page starts loading
+    window.addEventListener('beforeunload', function() {
+        document.getElementById('loading-screen').style.display = 'block';
+    });
+</script>
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
