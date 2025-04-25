@@ -20,9 +20,9 @@ class AdminDashboardController extends Controller
     public function index()
     {
         // Ensure the admin is logged in
-        if (!session()->has('admin_logged_in')) {
-            return redirect()->route('admin.login')->with('error', 'You must log in first.');
-        }
+        // if (!session()->has('admin_logged_in')) {
+        //     return redirect()->route('admin.login')->with('error', 'You must log in first.');
+        // }
 
         // Count students by department, only enrolled and not graduated
         $studentsByDepartment = DB::table('students')
@@ -313,27 +313,27 @@ class AdminDashboardController extends Controller
         // Get the current school year from settings
         $currentSchoolYear = Setting::getSchoolYear();
         $nextSchoolYear = $currentSchoolYear + 1;
-    
+
         Log::info("Starting Year Level Increment | Current School Year: $currentSchoolYear | Next School Year: $nextSchoolYear");
-    
+
         $students = Student::where('year_level', '<', 4)->get();
-    
+
         foreach ($students as $student) {
             // Skip students who are not enrolled
             if ($student->enrolled == 0) {
                 Log::info("Skipping Student: {$student->student_id} | Not Enrolled");
                 continue;
             }
-    
+
             Log::info("Processing Student: {$student->student_id} | Current Year Level: {$student->year_level}");
-    
+
             // Get all passed subjects FOR CURRENT YEAR ONLY
             $passedSubjects = Grade::where('student_id', $student->student_id)
                 ->where('grade', '>=', 75)
                 ->where('school_year', $currentSchoolYear)
                 ->pluck('subject_id')
                 ->toArray();
-    
+
             // Get only the subjects that are still failed and were never passed (current year)
             $failedSubjects = Grade::where('student_id', $student->student_id)
                 ->where('school_year', $currentSchoolYear)
@@ -343,11 +343,11 @@ class AdminDashboardController extends Controller
                 })
                 ->whereNotIn('subject_id', $passedSubjects)
                 ->get();
-    
+
             // Check if student has passed all subjects (Graduate Condition)
             $totalSubjects = Subject::where('department_id', $student->department_id)->count();
             $passedCount = count($passedSubjects);
-    
+
             if ($passedCount == $totalSubjects) {
                 // If student is eligible for graduation, mark as graduated and skip further promotion
                 Graduate::create([
@@ -356,24 +356,24 @@ class AdminDashboardController extends Controller
                     'department_id' => $student->department_id,
                     'graduation_year' => $currentSchoolYear,
                 ]);
-    
+
                 // $student->update(['graduated' => 1]); // Mark as graduated
-    
+
                 Log::info("Student Graduated | Student ID: {$student->student_id}");
                 continue; // Skip the rest of the processing for graduates
             }
-    
+
             // NEW: Calculate total enrolled subjects FOR CURRENT SCHOOL YEAR ONLY
             $totalEnrolledSubjects = Grade::where('student_id', $student->student_id)
                 ->where('school_year', $currentSchoolYear)
                 ->count();
-    
-            // CURRENT YEAR LEVEL ONLY 
+
+            // CURRENT YEAR LEVEL ONLY
             // $totalEnrolledSubjects = Grade::where('student_id', $student->student_id)
             //     ->where('school_year', $currentSchoolYear)
             //     ->where('year_level', $student->year_level)
             //     ->count();
-            
+
             // NEW: Count passed major subjects FOR CURRENT SCHOOL YEAR ONLY
             $passedMajorSubjects = Grade::where('student_id', $student->student_id)
                 ->where('grade', '>=', 75)
@@ -382,12 +382,12 @@ class AdminDashboardController extends Controller
                     $query->where('major', 1); // Check major subjects
                 })
                 ->count();
-    
+
             // NEW: Only check promotion rules if student has enrolled subjects
             if ($totalEnrolledSubjects > 0) {
                 // Calculate the percentage of passed subjects
                 $passedPercentage = ($passedCount / $totalEnrolledSubjects) * 100;
-                
+
                 // Promote if passed 60% of current year's subjects OR (2+ major subjects AND 30% of all subjects)
                 if ($passedPercentage >= 60 || ($passedMajorSubjects >= 2 && $passedPercentage >= 30)) {
                     $student->year_level += 1;
@@ -408,13 +408,13 @@ class AdminDashboardController extends Controller
             foreach ($failedSubjects as $failedSubject) {
                 $newYearLevel = $student->year_level;
                 $newSemester = $failedSubject->semester;
-    
+
                 $existingGrade = Grade::where('student_id', $student->student_id)
                     ->where('subject_id', $failedSubject->subject_id)
                     ->where('year_level', $newYearLevel)
                     ->where('school_year', $nextSchoolYear)
                     ->exists();
-    
+
                 if (!$existingGrade) {
                     Grade::create([
                         'student_id' => $student->student_id,
@@ -428,16 +428,16 @@ class AdminDashboardController extends Controller
                     Log::info("Re-enrolled Failed Subject | Student ID: {$student->student_id} | Subject ID: {$failedSubject->subject_id} | Year Level: $newYearLevel | Semester: $newSemester");
                 }
             }
-    
+
             // Assign new subjects for the next year level
             $semesters = [1, 2];
-    
+
             foreach ($semesters as $semester) {
                 $newSubjects = Subject::where('year', $student->year_level)
                     ->where('semester', $semester)
                     ->where('department_id', $student->department_id)
                     ->get();
-    
+
                 foreach ($newSubjects as $subject) {
                     // Check if prerequisite is met
                     if ($subject->prerequisite_id) {
@@ -445,19 +445,19 @@ class AdminDashboardController extends Controller
                             ->where('subject_id', $subject->prerequisite_id)
                             ->where('grade', '>=', 75)
                             ->exists();
-    
+
                         if (!$prerequisiteGrade) {
                             Log::info("Skipping Subject: {$subject->id} for Student: {$student->student_id} due to failed prerequisite.");
                             continue;
                         }
                     }
-    
+
                     // Avoid duplicate subject enrollment
                     $existingGrade = Grade::where('student_id', $student->student_id)
                         ->where('subject_id', $subject->id)
                         ->where('school_year', $nextSchoolYear)
                         ->exists();
-    
+
                     if (!$existingGrade) {
                         Grade::create([
                             'student_id' => $student->student_id,
@@ -472,18 +472,18 @@ class AdminDashboardController extends Controller
                     }
                 }
             }
-    
+
             // Add subjects that became available after passing prerequisites
             $nextSubjects = Subject::whereIn('prerequisite_id', $passedSubjects)
                 ->where('year', $student->year_level)
                 ->get();
-    
+
             foreach ($nextSubjects as $subject) {
                 $alreadyEnrolled = Grade::where('student_id', $student->student_id)
                     ->where('subject_id', $subject->id)
                     ->where('school_year', $nextSchoolYear)
                     ->exists();
-    
+
                 if (!$alreadyEnrolled) {
                     Grade::create([
                         'student_id' => $student->student_id,
@@ -498,23 +498,23 @@ class AdminDashboardController extends Controller
                 }
             }
         }
-    
+
         // Update school year and reset semester in settings
         Setting::incrementSchoolYear();
         Setting::query()->update(['current_semester' => 1]);
-    
+
         // 🔥 Reset enrollment status for all students
         // Student::query()->update(['enrolled' => 0]);
-    
+
         // Fetch the updated school year AFTER incrementing it
         $nextSchoolYear = Setting::getSchoolYear();
-    
+
         Log::info("Year Level Increment Completed.");
-    
+
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
         Artisan::call('view:clear');
-    
+
         return redirect()->back()->with('success', 'Students promoted, semester reset, failed subjects re-enrolled, prerequisite subjects assigned, and graduates recorded.');
     }
 
