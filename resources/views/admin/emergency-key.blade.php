@@ -29,7 +29,7 @@
                 {{ $emergencyKey }}
             </div>
             <p class="mt-3 text-danger">You won’t be able to see this key again. Write it down and keep it secure.</p>
-            <a href="{{ route('admin.login') }}" class="btn btn-success mt-3">Go to Login</a>
+            <a href="{{ route('login_admin.login') }}" class="btn btn-success mt-3">Go to Login</a>
         </div>
     </div>
 
